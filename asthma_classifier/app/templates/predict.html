@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card shadow-lg mx-auto" style="max-width: 700px;">
+  <div class="card-header bg-primary text-white text-center">
+    <h4>Asthma Risk Prediction</h4>
+  </div>
+  <div class="card-body">
+    <p class="text-muted mb-4 text-center">
+      Enter the patient's health details below to predict the likelihood of asthma.
+    </p>
+
+    <form method="POST" class="row g-3">
+
+      <!-- Example Input Fields (Adjust according to your dataset) -->
+      <div class="col-md-6">
+        <label class="form-label">Age</label>
+        <input type="number" class="form-control" name="age" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Gender</label>
+        <select class="form-select" name="gender" required>
+          <option value="">Select...</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Smoking History</label>
+        <select class="form-select" name="smoking" required>
+          <option value="">Select...</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Family History of Asthma</label>
+        <select class="form-select" name="family_history" required>
+          <option value="">Select...</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Allergies</label>
+        <select class="form-select" name="allergies" required>
+          <option value="">Select...</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Physical Activity (hours/week)</label>
+        <input type="number" class="form-control" name="activity" step="0.1" required>
+      </div>
+
+      <div class="col-md-12 text-center">
+        <button type="submit" class="btn btn-success px-4">Predict</button>
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary px-4 ms-2">Back</a>
+      </div>
+    </form>
+
+    {% if result is defined %}
+    <div class="alert alert-info text-center mt-4">
+      <h5>Prediction Result:</h5>
+      <p class="fw-bold">{{ result }}</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
