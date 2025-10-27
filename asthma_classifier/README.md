@@ -14,5 +14,5 @@ This Flask application provides a user-friendly interface for predicting asthma 
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/yourusername/asthma_classifier.git
+git clone https://github.com/ChrisKabumba/asthma_classifier.git
 cd asthma_classifier

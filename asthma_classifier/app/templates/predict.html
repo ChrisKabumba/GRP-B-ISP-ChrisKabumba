@@ -10,59 +10,27 @@
       Enter the patient's health details below to predict the likelihood of asthma.
     </p>
 
-    <form method="POST" class="row g-3">
+      <form method="POST" class="row g-3">
 
-      <!-- Example Input Fields (Adjust according to your dataset) -->
-      <div class="col-md-6">
-        <label class="form-label">Age</label>
-        <input type="number" class="form-control" name="age" required>
-      </div>
+        {% for feature in [
+            "Tiredness", "Dry-Cough", "Difficulty-in-Breathing", "Sore-Throat",
+            "None_Sympton", "Pains", "Nasal-Congestion", "Runny-Nose",
+            "None_Experiencing", "Age_0-9", "Age_10-19", "Age_20-24",
+            "Age_25-59", "Age_60+", "Gender_Female", "Gender_Male"
+        ] %}
+        
+        <div class="col-md-4">
+            <label class="form-label">{{ feature.replace('-', ' ') }}</label>
+            <select name="{{ feature }}" class="form-select">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
+        {% endfor %}
 
-      <div class="col-md-6">
-        <label class="form-label">Gender</label>
-        <select class="form-select" name="gender" required>
-          <option value="">Select...</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Smoking History</label>
-        <select class="form-select" name="smoking" required>
-          <option value="">Select...</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Family History of Asthma</label>
-        <select class="form-select" name="family_history" required>
-          <option value="">Select...</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Allergies</label>
-        <select class="form-select" name="allergies" required>
-          <option value="">Select...</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label">Physical Activity (hours/week)</label>
-        <input type="number" class="form-control" name="activity" step="0.1" required>
-      </div>
-
-      <div class="col-md-12 text-center">
-        <button type="submit" class="btn btn-success px-4">Predict</button>
-        <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary px-4 ms-2">Back</a>
-      </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary mt-3">Predict</button>
+        </div>
     </form>
 
     {% if result is defined %}
