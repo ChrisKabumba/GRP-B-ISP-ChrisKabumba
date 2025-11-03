@@ -2,18 +2,16 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .forms import LoginForm, RegisterForm 
-from .models import User, db
+from .models import User, PatientRecord, db
 import pandas as pd
 import joblib
 # import pickle, numpy
 
 main = Blueprint('main', __name__)
-# Load model and preprocessor once when the app starts
+# Load model when the app starts
 MODEL_PATH = "./model/asthma_model.pkl"
-# PREPROCESSOR_PATH = "./model/preprocessor.pkl"
 
 model = joblib.load(MODEL_PATH)
-# preprocessor = joblib.load(PREPROCESSOR_PATH)
 
 @main.route('/')
 def home():
@@ -105,3 +103,54 @@ def predict():
 def logout():
     logout_user()
     return redirect(url_for('main.login'))
+
+@main.route('/add_record', methods=['GET', 'POST'])
+@login_required
+def add_record():
+    if request.method == 'POST':
+        name = request.form['name']
+        age = request.form['age']
+        gender = request.form['gender']
+        symptoms = request.form['symptoms']
+        severity = request.form['severity']
+
+        record = PatientRecord(
+            name=name, age=age, gender=gender,
+            symptoms=symptoms, severity=severity
+        )
+        db.session.add(record)
+        db.session.commit()
+        flash('Record added successfully!', 'success')
+        return redirect(url_for('main.records'))
+
+    return render_template('add_record.html')
+
+@main.route('/records')
+@login_required
+def records():
+    records = PatientRecord.query.all()
+    return render_template('records.html', records=records)
+
+@main.route('/update_record/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update_record(id):
+    record = PatientRecord.query.get_or_404(id)
+    if request.method == 'POST':
+        record.name = request.form['name']
+        record.age = request.form['age']
+        record.gender = request.form['gender']
+        record.symptoms = request.form['symptoms']
+        record.severity = request.form['severity']
+        db.session.commit()
+        flash('Record updated successfully!', 'info')
+        return redirect(url_for('main.records'))
+    return render_template('update_record.html', record=record)
+
+@main.route('/delete_record/<int:id>')
+@login_required
+def delete_record(id):
+    record = PatientRecord.query.get_or_404(id)
+    db.session.delete(record)
+    db.session.commit()
+    flash('Record deleted successfully!', 'danger')
+    return redirect(url_for('main.records'))
