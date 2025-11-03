@@ -7,9 +7,13 @@ import pandas as pd
 import joblib
 # import pickle, numpy
 
-file_path = "./model/asthma_severity_model.pkl"
 main = Blueprint('main', __name__)
-model = joblib.load(file_path)
+# Load model and preprocessor once when the app starts
+MODEL_PATH = "./model/asthma_model.pkl"
+# PREPROCESSOR_PATH = "./model/preprocessor.pkl"
+
+model = joblib.load(MODEL_PATH)
+# preprocessor = joblib.load(PREPROCESSOR_PATH)
 
 @main.route('/')
 def home():
@@ -62,74 +66,39 @@ def register():
 def dashboard():
     return render_template('dashboard.html', user=current_user)
 
-# @main.route('/predict', methods=['GET', 'POST'])
-# @login_required
-# def predict():
-#     if request.method == 'POST':
-#         data = [float(x) for x in request.form.values()]
-#         model = pickle.load(open('model/asthma_model.pkl', 'rb'))
-#         preprocessor = pickle.load(open('model/preprocessor.pkl', 'rb'))
-#         input_data = preprocessor.transform(np.array([data]))
-#         prediction = model.predict(input_data)
-#         return render_template('predict.html', result=prediction[0])
-#     return render_template('predict.html')
 
-# @main.route('/predict', methods=['GET', 'POST'])
-# @login_required
-# def predict():
-#     if request.method == 'POST':
-#         # Collect input data from form
-#         input_data = [
-#             request.form['age'],
-#             request.form['gender'],
-#             request.form['smoking'],
-#             request.form['family_history'],
-#             request.form['allergies'],
-#             request.form['activity']
-#         ]
-        
-#         # Load preprocessor and model
-#         preprocessor = pickle.load(open('model/preprocessor.pkl', 'rb'))
-#         model = pickle.load(open('model/asthma_model.pkl', 'rb'))
-
-#         # Preprocess and predict
-#         X = pd.DataFrame([input_data], columns=[
-#             'Age', 'Gender', 'Smoking', 'Family_History', 'Allergies', 'Activity'
-#         ])
-#         X_processed = preprocessor.transform(X)
-#         prediction = model.predict(X_processed)
-
-#         return render_template('predict.html', result=prediction[0])
-
-#     return render_template('predict.html')
-
-@main.route("/predict", methods=["GET", "POST"])
+@main.route('/predict', methods=['GET', 'POST'])
+@login_required
 def predict():
-    if request.method == "POST":
-        try:
-            # Match the features used during training
-            features = [
-                "Tiredness", "Dry-Cough", "Difficulty-in-Breathing", "Sore-Throat",
-                "None_Sympton", "Pains", "Nasal-Congestion", "Runny-Nose",
-                "None_Experiencing", "Age_0-9", "Age_10-19", "Age_20-24",
-                "Age_25-59", "Age_60+", "Gender_Female", "Gender_Male"
-            ]
+    prediction = None
 
-            # Gather user input
-            user_input = {f: [int(request.form.get(f, 0))] for f in features}
-            X_input = pd.DataFrame(user_input)
+    if request.method == 'POST':
+        try:
+            # Collect form input values
+            form_data = {
+                'Tiredness': int(request.form.get('Tiredness')),
+                'Dry-Cough': int(request.form.get('Dry-Cough')),
+                'Difficulty-in-Breathing': int(request.form.get('Difficulty-in-Breathing')),
+                'Sore-Throat': int(request.form.get('Sore-Throat')),
+                'None_Sympton': int(request.form.get('None_Symptom')), # In the model, None_Symptom is None_Sympton
+                'Pains': int(request.form.get('Pains')),
+                'Nasal-Congestion': int(request.form.get('Nasal-Congestion')),
+                'Runny-Nose': int(request.form.get('Runny-Nose')),
+                'None_Experiencing': int(request.form.get('None_Experiencing')),
+                'Age': request.form.get('Age'),
+                'Gender': request.form.get('Gender')
+            }
+
+            # Convert to DataFrame
+            input_df = pd.DataFrame([form_data])
 
             # Predict severity
-            prediction = model.predict(X_input)[0]
-            proba = model.predict_proba(X_input).max() * 100
-
-            result = f"Predicted Asthma Severity: {prediction} ({proba:.1f}% confidence)"
-            flash(result, "success")
+            prediction = model.predict(input_df)[0]
 
         except Exception as e:
-            flash(f"Error: {e}", "danger")
+            flash(f"Error making prediction: {str(e)}", "danger")
 
-    return render_template("predict.html")
+    return render_template('predict.html', prediction=prediction)
 
 @main.route('/logout')
 @login_required
