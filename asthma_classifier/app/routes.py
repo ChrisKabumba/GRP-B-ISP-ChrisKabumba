@@ -2,9 +2,10 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .forms import LoginForm, RegisterForm 
-from .models import User, PatientRecord, db
+from .models import User, Prediction, db
 import pandas as pd
 import joblib
+import json
 # import pickle, numpy
 
 main = Blueprint('main', __name__)
@@ -59,11 +60,27 @@ def register():
 
     return render_template('register.html', form=form)
 
-@main.route('/dashboard')
+@main.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user=current_user)
-
+    if current_user.role == "admin":
+        total_users = User.query.count()
+        total_predictions = Prediction.query.count()
+        model_accuracy = 49  # or load from model metrics
+        return render_template(
+            "dashboard.html",
+            total_users=total_users,
+            total_predictions=total_predictions,
+            model_accuracy=model_accuracy
+        )
+    else:
+        user_predictions = Prediction.query.filter_by(user_id=current_user.id).count()
+        last_prediction = Prediction.query.filter_by(user_id=current_user.id).order_by(Prediction.timestamp.desc()).first()
+        return render_template(
+            "dashboard.html",
+            user_predictions=user_predictions,
+            last_prediction=last_prediction
+        )
 
 @main.route('/predict', methods=['GET', 'POST'])
 @login_required
@@ -93,6 +110,16 @@ def predict():
             # Predict severity
             prediction = model.predict(input_df)[0]
 
+            # Saving a prediction
+            new_pred = Prediction(
+                input_data=json.dumps(form_data),
+                result=prediction,
+                user_id=current_user.id
+            )
+            db.session.add(new_pred)
+            db.session.commit()
+
+
         except Exception as e:
             flash(f"Error making prediction: {str(e)}", "danger")
 
@@ -103,54 +130,3 @@ def predict():
 def logout():
     logout_user()
     return redirect(url_for('main.login'))
-
-@main.route('/add_record', methods=['GET', 'POST'])
-@login_required
-def add_record():
-    if request.method == 'POST':
-        name = request.form['name']
-        age = request.form['age']
-        gender = request.form['gender']
-        symptoms = request.form['symptoms']
-        severity = request.form['severity']
-
-        record = PatientRecord(
-            name=name, age=age, gender=gender,
-            symptoms=symptoms, severity=severity
-        )
-        db.session.add(record)
-        db.session.commit()
-        flash('Record added successfully!', 'success')
-        return redirect(url_for('main.records'))
-
-    return render_template('add_record.html')
-
-@main.route('/records')
-@login_required
-def records():
-    records = PatientRecord.query.all()
-    return render_template('records.html', records=records)
-
-@main.route('/update_record/<int:id>', methods=['GET', 'POST'])
-@login_required
-def update_record(id):
-    record = PatientRecord.query.get_or_404(id)
-    if request.method == 'POST':
-        record.name = request.form['name']
-        record.age = request.form['age']
-        record.gender = request.form['gender']
-        record.symptoms = request.form['symptoms']
-        record.severity = request.form['severity']
-        db.session.commit()
-        flash('Record updated successfully!', 'info')
-        return redirect(url_for('main.records'))
-    return render_template('update_record.html', record=record)
-
-@main.route('/delete_record/<int:id>')
-@login_required
-def delete_record(id):
-    record = PatientRecord.query.get_or_404(id)
-    db.session.delete(record)
-    db.session.commit()
-    flash('Record deleted successfully!', 'danger')
-    return redirect(url_for('main.records'))

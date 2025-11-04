@@ -7,17 +7,16 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class User(UserMixin, db.Model):
-    """username, password, role"""
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
-    role = db.Column(db.String(20), nullable=False, default='user')  # 'admin' or 'user'
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    #email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    role = db.Column(db.String(10), default='user')  # 'admin' or 'user'
+    predictions = db.relationship('Prediction', backref='user', lazy=True)
 
-class PatientRecord(db.Model):
+class Prediction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    age = db.Column(db.String(20), nullable=False)
-    gender = db.Column(db.String(20), nullable=False)
-    symptoms = db.Column(db.Text, nullable=False)
-    severity = db.Column(db.String(50))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    input_data = db.Column(db.Text, nullable=False)
+    result = db.Column(db.String(50), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

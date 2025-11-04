@@ -1,104 +1,304 @@
-/* ====== Global Styles ====== */
+/* =====================================================
+   GLOBAL STYLES
+   ===================================================== */
 body {
-    background-color: #f7f9fc;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-/* Navbar */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: #2d3436;
+}
+
+/* =====================================================
+   NAVBAR
+   ===================================================== */
 .navbar {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background-color: #007bff;
 }
 
-/* Card Styling */
+.navbar-brand,
+.nav-link {
+  color: #fff !important;
+}
+
+.nav-link:hover {
+  color: #00b894 !important;
+}
+
+/* =====================================================
+   CONTAINERS & CARDS
+   ===================================================== */
+.container {
+  max-width: 1200px;
+}
+
 .card {
-    border: none;
-    border-radius: 15px;
-    overflow: hidden;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
-.card-header {
-    border-bottom: none;
+.card h3 {
+  color: #0984e3;
 }
 
-.card-body {
-    padding: 2rem;
+/* =====================================================
+   FORMS
+   ===================================================== */
+form {
+  margin-top: 15px;
 }
 
-/* Buttons */
-.btn {
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  padding: 0.6rem 1rem;
 }
 
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+form .btn {
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 500;
 }
 
-/* Input Fields */
-.form-control, .form-select {
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+/* Button Variants */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 
-/* Flash Alerts */
+.btn-success {
+  background-color: #00b894;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #019875;
+}
+
+.btn-danger {
+  background-color: #d63031;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.btn-secondary {
+  background-color: #636e72;
+  border: none;
+}
+
+/* =====================================================
+   TABLES
+   ===================================================== */
+table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #dfe6e9;
+  transition: 0.2s ease;
+}
+
+/* =====================================================
+   ALERTS
+   ===================================================== */
 .alert {
-    border-radius: 10px;
+  border-radius: 10px;
+  font-size: 15px;
 }
 
-/* Footer */
-footer {
-    background-color: #0d6efd;
-    color: white;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: auto;
+/* =====================================================
+   AUTH PAGE
+   ===================================================== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #f5f8ff;
 }
 
-/* ====== Dashboard ====== */
+.auth-card {
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.auth-card h2 {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.google-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.google-login-btn .google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* =====================================================
+   DASHBOARD PAGE
+   ===================================================== */
 .dashboard-container {
-    text-align: center;
-    margin-top: 3rem;
+  padding: 3rem 1rem;
+  background: #f5f8ff;
+  min-height: 85vh;
 }
 
-.dashboard-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 2rem;
-    transition: transform 0.3s ease;
+.dashboard-header h1 {
+  font-weight: 700;
+  color: #007bff;
 }
 
-.dashboard-card:hover {
-    transform: translateY(-5px);
+.dashboard-header p {
+  color: #555;
+  font-size: 1.1rem;
 }
 
-/* Predict Page */
-form .form-label {
-    font-weight: 500;
-    color: #333;
+/* Info Cards */
+.stats-card,
+.info-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.alert-info {
-    background-color: #e8f4fd;
-    border-left: 5px solid #0d6efd;
+.stats-card:hover,
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive */
+.stats-card .card-title,
+.info-card h5 {
+  font-size: 1rem;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.stats-card h2 {
+  font-size: 2.2rem;
+}
+
+.dashboard-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+/* Predict Banner */
+.predict-section {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.predict-banner {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 650px;
+}
+
+.predict-banner h2 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.predict-banner p {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.btn-predict {
+  background-color: white;
+  color: #007bff;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.8rem 2.2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-predict:hover {
+  background-color: #f0f0f0;
+  color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* =====================================================
+   RESULT BOX
+   ===================================================== */
+.result-box {
+  background-color: #dff9fb;
+  border: 2px solid #00b894;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #2d3436;
+  font-weight: 600;
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+footer {
+  text-align: center;
+  color: #636e72;
+  padding: 15px 0;
+  margin-top: 40px;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
 @media (max-width: 768px) {
-    .card-body {
-        padding: 1.2rem;
-    }
-
-    .btn {
-        width: 100%;
-        margin-bottom: 10px;
-    }
+  .info-card {
+    width: 90%;
+  }
 }

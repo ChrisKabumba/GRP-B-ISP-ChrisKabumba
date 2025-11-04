@@ -1,17 +1,88 @@
 {% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
 {% block content %}
-<h2>Welcome, {{ user.username }}!</h2>
-<!--
-<a href="{{ url_for('main.predict') }}">Make Prediction</a>
-<a href="{{ url_for('main.logout') }}">Logout</a>
--->
-<div class="dashboard-container">
-    <h2>Welcome, {{ user.username }}!</h2>
 
-    {% if user.role == 'admin' %}
-    <a href="{{ url_for('main.register') }}" class="btn btn-primary mt-3">Register New User</a>
+<div class="container mt-5">
+
+    {% if current_user.role == 'admin' %}
+        <!-- ADMIN DASHBOARD -->
+        <div class="text-center mb-5">
+            <h1 class="fw-bold text-primary">Admin Dashboard</h1>
+            <p class="text-muted">Manage users, review predictions, and monitor system performance.</p>
+        </div>
+
+        <div class="row g-4 mb-5 justify-content-center">
+            <div class="col-md-4">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Total Users</h5>
+                        <h2 class="fw-bold text-primary">{{ total_users or 0 }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Predictions Made</h5>
+                        <h2 class="fw-bold text-success">{{ total_predictions or 0 }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Model Accuracy</h5>
+                        <h2 class="fw-bold text-warning">{{ model_accuracy or '—' }}%</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <!-- USER DASHBOARD -->
+        <div class="text-center mb-5">
+            <h1 class="fw-bold text-primary">Welcome, {{ current_user.username }}</h1>
+            <p class="text-muted">Track your predictions and manage your account with ease.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center mb-5">
+            <!-- Total Predictions -->
+            <div class="col-md-5">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Your Total Predictions</h5>
+                        <h2 class="fw-bold text-primary">{{ user_predictions or 0 }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Last Prediction -->
+            {% if last_prediction %}
+            <div class="col-md-5">
+                <div class="card stats-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Last Prediction</h5>
+                        <p class="fw-bold fs-5">{{ last_prediction.result }}</p>
+                        <p class="text-muted small">{{ last_prediction.timestamp.strftime('%B %d, %Y') }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
     {% endif %}
 
-    <a href="{{ url_for('main.predict') }}" class="btn btn-success mt-3">Make Prediction</a>
+    <!-- Predict Now CTA -->
+    <div class="predict-section text-center">
+        <div class="predict-banner">
+            <h2>Ready to get your prediction?</h2>
+            <p>Click below to analyze your symptoms and view your asthma severity instantly.</p>
+            <a href="{{ url_for('main.predict') }}" class="btn btn-lg btn-predict mt-3">
+                <i class="bi bi-activity"></i> Predict Now
+            </a>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
