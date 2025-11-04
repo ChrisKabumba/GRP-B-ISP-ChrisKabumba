@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+
+<section class="about-section py-5 fade-in">
+  <div class="container text-center">
+    <h2 class="text-primary fw-bold mb-3">About <span class="text-dark">Asthma Classifier</span></h2>
+    <p class="text-muted lead mb-5">
+      Empowering healthcare with intelligent asthma prediction technology.
+    </p>
+
+    <!-- Company Overview -->
+    <div class="row align-items-center mb-5">
+      <div class="col-md-6 mb-4 mb-md-0">
+        <img src="https://cdn-icons-png.flaticon.com/512/4229/4229164.png" 
+             alt="Healthcare AI" class="img-fluid rounded shadow-sm" width="400">
+      </div>
+      <div class="col-md-6 text-start">
+        <h4 class="text-primary fw-semibold mb-3">Our Mission</h4>
+        <p class="text-muted">
+          Our goal is to make early detection and management of asthma symptoms accessible and reliable. 
+          Using machine learning technology, our platform analyzes health data to help users and professionals 
+          predict asthma severity and take proactive steps toward healthier living.
+        </p>
+        <h4 class="text-primary fw-semibold mt-4 mb-3">Our Vision</h4>
+        <p class="text-muted">
+          We envision a world where artificial intelligence assists medical professionals in delivering 
+          faster, more accurate respiratory health insights — improving patient outcomes and 
+          supporting preventive care.
+        </p>
+      </div>
+    </div>
+
+    <!-- Commercial / Business Information -->
+    <div class="commercial-info py-5 px-4 rounded shadow-sm bg-light text-center">
+      <h3 class="text-primary fw-bold mb-3">Information</h3>
+      <p class="text-muted mb-4">
+        Asthma Predictor™ is developed by <strong>Kabumba Christian</strong>, a 4th year undergraduate student at Strathmore University, for the completion of 
+        a degree in Computer Science under the School of Computing and Engineering Science (SCES).
+      </p>
+
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-3 mb-3">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Products & Services</h5>
+              <p class="card-text text-muted">
+                - Asthma Severity Predictor <br>
+                - Health Data Analytics <br>
+                - AI Diagnostic APIs
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Partners</h5>
+              <p class="card-text text-muted">
+                Healthcare providers, universities, and health tech startups partnering to advance AI healthcare.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title text-primary">Contact Us</h5>
+              <p class="card-text text-muted mb-0">
+                <i class="bi bi-envelope-fill"></i> kabumba.christian@strathmore.edu <br>
+                <i class="bi bi-telephone-fill"></i> +254 704 395 430 <br>
+                <i class="bi bi-geo-alt-fill"></i> Nairobi, Kenya
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .forms import LoginForm, RegisterForm 
-from .models import User, Prediction, db
+from ..forms import LoginForm, RegisterForm, EditProfileForm
+from ..models import User, Prediction, db
 import pandas as pd
 import joblib
 import json
@@ -13,6 +13,11 @@ main = Blueprint('main', __name__)
 MODEL_PATH = "./model/asthma_model.pkl"
 
 model = joblib.load(MODEL_PATH)
+
+# model_info = joblib.load("MODEL_PATH")
+
+# model = model_info["model"]
+# model_accuracy_score = model_info.get("accuracy", None)
 
 @main.route('/')
 def home():
@@ -67,6 +72,7 @@ def dashboard():
         total_users = User.query.count()
         total_predictions = Prediction.query.count()
         model_accuracy = 49  # or load from model metrics
+        # model_accuracy = model_accuracy_score
         return render_template(
             "dashboard.html",
             total_users=total_users,
@@ -130,3 +136,27 @@ def predict():
 def logout():
     logout_user()
     return redirect(url_for('main.login'))
+
+@main.route('/about')
+def about():
+    return render_template('about.html')
+
+@main.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html')
+
+@main.route('/profile/edit', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        #current_user.email = form.email.data
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('main.profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        #form.email.data = current_user.email
+    return render_template('edit_profile.html', form=form)

@@ -302,3 +302,20 @@ footer {
     width: 90%;
   }
 }
+
+.about-section {
+    background: #f8f9fa;
+}
+
+.commercial-info {
+    background: linear-gradient(135deg, #f9fbff 0%, #e9f2ff 100%);
+}
+
+.commercial-info .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.commercial-info .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}

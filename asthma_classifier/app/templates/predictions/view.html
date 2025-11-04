@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Prediction Details{% endblock %}
+{% block content %}
+
+<div class="container mt-5 fade-in">
+    <div class="card border-0 shadow-lg rounded-4 p-4 mx-auto" style="max-width: 600px;">
+        <h3 class="text-primary text-center mb-4">Prediction Details</h3>
+        <p><strong>Date:</strong> {{ prediction.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+        <p><strong>Predicted Severity:</strong>
+            {% if prediction.predicted_severity == 'Mild' %}
+              <span class="badge bg-success">Mild</span>
+            {% elif prediction.predicted_severity == 'Moderate' %}
+              <span class="badge bg-warning text-dark">Moderate</span>
+            {% else %}
+              <span class="badge bg-secondary">None</span>
+            {% endif %}
+        </p>
+
+        <hr>
+
+        <h5 class="text-primary mb-3">Symptoms</h5>
+        <ul class="list-group mb-4">
+            
+        </ul>
+
+        <div class="text-center">
+            <a href="{{ url_for('crud.list_predictions') }}" class="btn btn-secondary w-45 me-2">Back</a>
+            <form method="POST" action="{{ url_for('crud.delete_prediction', prediction_id=prediction.id) }}" class="d-inline delete-form">
+                <button type="submit" class="btn btn-danger w-45">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
