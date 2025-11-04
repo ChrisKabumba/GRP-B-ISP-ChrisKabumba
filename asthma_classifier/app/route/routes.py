@@ -35,6 +35,35 @@ def login():
             flash('Invalid username or password')
     return render_template('login.html', form=form)
 
+@main.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main.login'))
+
+@main.route("/dashboard")
+@login_required
+def dashboard():
+    if current_user.role == "admin":
+        total_users = User.query.count()
+        total_predictions = Prediction.query.count()
+        model_accuracy = 49  # or load from model metrics
+        # model_accuracy = model_accuracy_score
+        return render_template(
+            "dashboard.html",
+            total_users=total_users,
+            total_predictions=total_predictions,
+            model_accuracy=model_accuracy
+        )
+    else:
+        user_predictions = Prediction.query.filter_by(user_id=current_user.id).count()
+        last_prediction = Prediction.query.filter_by(user_id=current_user.id).order_by(Prediction.timestamp.desc()).first()
+        return render_template(
+            "dashboard.html",
+            user_predictions=user_predictions,
+            last_prediction=last_prediction
+        )
+    
 # --- Registration Page ---
 @main.route('/register', methods=['GET', 'POST'])
 @login_required
@@ -63,30 +92,7 @@ def register():
         flash(f"User '{form.username.data}' registered successfully as {form.role.data}!", 'success')
         return redirect(url_for('main.dashboard'))
 
-    return render_template('register.html', form=form)
-
-@main.route("/dashboard")
-@login_required
-def dashboard():
-    if current_user.role == "admin":
-        total_users = User.query.count()
-        total_predictions = Prediction.query.count()
-        model_accuracy = 49  # or load from model metrics
-        # model_accuracy = model_accuracy_score
-        return render_template(
-            "dashboard.html",
-            total_users=total_users,
-            total_predictions=total_predictions,
-            model_accuracy=model_accuracy
-        )
-    else:
-        user_predictions = Prediction.query.filter_by(user_id=current_user.id).count()
-        last_prediction = Prediction.query.filter_by(user_id=current_user.id).order_by(Prediction.timestamp.desc()).first()
-        return render_template(
-            "dashboard.html",
-            user_predictions=user_predictions,
-            last_prediction=last_prediction
-        )
+    return render_template('users/register.html', form=form)
 
 @main.route('/predict', methods=['GET', 'POST'])
 @login_required
@@ -129,13 +135,7 @@ def predict():
         except Exception as e:
             flash(f"Error making prediction: {str(e)}", "danger")
 
-    return render_template('predict.html', prediction=prediction)
-
-@main.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('main.login'))
+    return render_template('predictions/predict.html', prediction=prediction)
 
 @main.route('/about')
 def about():
@@ -144,7 +144,7 @@ def about():
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html')
+    return render_template('users/profile.html')
 
 @main.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
@@ -159,4 +159,4 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
         #form.email.data = current_user.email
-    return render_template('edit_profile.html', form=form)
+    return render_template('users/edit_profile.html', form=form)

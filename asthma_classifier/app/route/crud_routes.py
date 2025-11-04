@@ -5,7 +5,6 @@ from app.models import db, User, Prediction
 crud_bp = Blueprint('crud', __name__)
 
 # ---------- USERS ----------
-
 @crud_bp.route('/users')
 @login_required
 def list_users():
