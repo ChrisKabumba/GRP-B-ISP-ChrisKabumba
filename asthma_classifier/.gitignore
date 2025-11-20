@@ -1,3 +1,5 @@
 # Ignore environment files
 .env
 temp
+.vscode
+__pycache__
