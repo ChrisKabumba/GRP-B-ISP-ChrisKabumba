@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..forms import LoginForm, RegisterForm, EditProfileForm
+from ..forms import LoginForm, RegisterForm, EditProfileForm, ChangePasswordForm
 from ..models import User, Prediction, db
 import pandas as pd
 import joblib
@@ -18,6 +18,7 @@ model = joblib.load(MODEL_PATH)
 
 # model = model_info["model"]
 # model_accuracy_score = model_info.get("accuracy", None)
+model_accuracy_score = 49
 
 @main.route('/')
 def home():
@@ -47,8 +48,7 @@ def dashboard():
     if current_user.role == "admin":
         total_users = User.query.count()
         total_predictions = Prediction.query.count()
-        model_accuracy = 49  # or load from model metrics
-        # model_accuracy = model_accuracy_score
+        model_accuracy = model_accuracy_score
         return render_template(
             "dashboard.html",
             total_users=total_users,
@@ -93,6 +93,20 @@ def register():
         return redirect(url_for('main.dashboard'))
 
     return render_template('users/register.html', form=form)
+
+@main.route("/change_password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if not check_password_hash(current_user.password, form.current_password.data):
+            flash("Current password is incorrect.", "danger")
+        else:
+            current_user.password = generate_password_hash(form.new_password.data)
+            db.session.commit()
+            flash("Password updated successfully!", "success")
+            return redirect(url_for("main.profile"))
+    return render_template("users/change_password.html", form=form)
 
 @main.route('/predict', methods=['GET', 'POST'])
 @login_required

@@ -1,25 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Profile - MyApp{% endblock %}
+
 {% block content %}
 <div class="container py-5 fade-in">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-                <div class="card p-4 border-0 shadow-sm text-center" style="max-width: 400px; width: 100%;">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                
+                <!-- Profile Header -->
+                <div class="bg-primary text-white text-center py-4">
                     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                        alt="Profile Picture" class="rounded-circle mb-3 mx-auto" width="100" height="100">
-                    <h3 class="text-primary mb-1">{{ current_user.username }}</h3>
-                    <p class="text-muted">{{ current_user.email }}</p>
-                    <hr>
-                    <h5 class="text-primary mb-3">Account Details</h5>
-                    <ul class="list-group text-start mb-4">
-                    <li class="list-group-item border-0">
-                        <strong>Role:</strong> {{ 'Admin' if current_user.role == 'admin' else 'User' }}
-                    </li>
+                         alt="Profile Picture"
+                         class="rounded-circle border border-3 border-white mb-2"
+                         width="110" height="110">
+                    <h4 class="fw-bold mb-0">{{ current_user.username }}</h4>
+                    <p class="mb-0 small text-light">{{ current_user.email }}</p>
+                </div>
+
+                <!-- Profile Body -->
+                <div class="card-body text-center">
+                    <h5 class="text-secondary mb-3">Account Details</h5>
+
+                    <ul class="list-group list-group-flush mb-4 text-start">
+                        <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
+                            <span><strong>Role:</strong></span>
+                            <span class="badge bg-primary text-white">
+                                {{ 'Admin' if current_user.role == 'admin' else 'User' }}
+                            </span>
+                        </li>
+                        <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
+                            <span><strong>Member Since:</strong></span>
+                            <span>{{ current_user.date_joined.strftime('%B %d, %Y') if current_user.date_joined else 'N/A' }}</span>
+                        </li>
                     </ul>
 
-                    <a href="{{ url_for('main.edit_profile') }}" class="btn btn-primary w-75 mb-2">Edit Profile</a>
-                    <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-secondary w-75">Back to Dashboard</a>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('main.edit_profile') }}" class="btn btn-primary">
+                            ✏️ Edit Profile
+                        </a>
+                        <a href="{{ url_for('main.change_password') }}" class="btn btn-outline-warning">
+                            🔒 Change Password
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Subtle footer -->
+                <div class="card-footer bg-light text-center small text-muted">
+                    Last login: {{ current_user.last_login.strftime('%B %d, %Y %I:%M %p') if current_user.last_login else 'N/A' }}
                 </div>
             </div>
         </div>

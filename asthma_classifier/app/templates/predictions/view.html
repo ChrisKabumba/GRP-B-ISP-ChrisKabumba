@@ -5,12 +5,19 @@
 <div class="container mt-5 fade-in">
     <div class="card border-0 shadow-lg rounded-4 p-4 mx-auto" style="max-width: 600px;">
         <h3 class="text-primary text-center mb-4">Prediction Details</h3>
+
+        {% if current_user.role == 'admin' %}
+        <p><strong>User:</strong> {{ prediction.user.username }}</p>
+        {% endif %}
+        
         <p><strong>Date:</strong> {{ prediction.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
         <p><strong>Predicted Severity:</strong>
             {% if prediction.predicted_severity == 'Mild' %}
               <span class="badge bg-success">Mild</span>
             {% elif prediction.predicted_severity == 'Moderate' %}
               <span class="badge bg-warning text-dark">Moderate</span>
+            {% elif prediction.predicted_severity == 'Severe' %}
+              <span class="badge bg-danger">Severe</span>
             {% else %}
               <span class="badge bg-secondary">None</span>
             {% endif %}
@@ -19,9 +26,15 @@
         <hr>
 
         <h5 class="text-primary mb-3">Symptoms</h5>
+        {% if prediction.symptoms %}
         <ul class="list-group mb-4">
-            
+            {% for symptom in prediction.symptoms.split(',') %}
+            <li class="list-group-item border-0">{{ symptom.strip() }}</li>
+            {% endfor %}
         </ul>
+        {% else %}
+        <p class="text-muted">No symptoms recorded.</p>
+        {% endif %}
 
         <div class="text-center">
             <a href="{{ url_for('crud.list_predictions') }}" class="btn btn-secondary w-45 me-2">Back</a>

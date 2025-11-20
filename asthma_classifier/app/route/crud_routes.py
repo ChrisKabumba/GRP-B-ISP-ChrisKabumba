@@ -46,11 +46,18 @@ def delete_user(user_id):
 @crud_bp.route('/predictions')
 @login_required
 def list_predictions():
+    """Display prediction history for users (admins see all)."""
     if current_user.role == 'admin':
-        predictions = Prediction.query.all()
+        predictions = db.session.query(Prediction, User.username)\
+            .join(User, Prediction.user_id == User.id)\
+            .order_by(Prediction.timestamp.desc())\
+            .all()
+        return render_template('predictions/list.html', predictions=predictions, is_admin=True)
     else:
-        predictions = Prediction.query.filter_by(user_id=current_user.id).all()
-    return render_template('predictions/list.html', predictions=predictions)
+        predictions = Prediction.query.filter_by(user_id=current_user.id)\
+            .order_by(Prediction.timestamp.desc())\
+            .all()
+        return render_template('predictions/list.html', predictions=predictions, is_admin=False)
 
 @crud_bp.route('/prediction/<int:prediction_id>/delete', methods=['POST'])
 @login_required

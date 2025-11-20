@@ -1,39 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card shadow-lg mx-auto" style="max-width: 600px;">
-  <div class="card-header bg-primary text-white text-center">
-    <h4>Admin - Register New User</h4>
-  </div>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+  <div class="card shadow-lg border-0" style="max-width: 600px; width: 100%;">
+    <div class="card-header bg-primary text-white text-center py-3 rounded-top">
+      <h4 class="mb-0">Admin — Register New User</h4>
+    </div>
 
-  <div class="card-body">
-    <form method="POST">
-      {{ form.hidden_tag() }}
+    <div class="card-body p-4">
+      <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
 
-      <div class="mb-3">
-        {{ form.username.label(class="form-label") }}
-        {{ form.username(class="form-control") }}
+        <div class="mb-3">
+          {{ form.username.label(class="form-label fw-semibold") }}
+          {{ form.username(class="form-control", placeholder="Enter username") }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.password.label(class="form-label fw-semibold") }}
+          {{ form.password(class="form-control", placeholder="Enter password") }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.confirm_password.label(class="form-label fw-semibold") }}
+          {{ form.confirm_password(class="form-control", placeholder="Confirm password") }}
+        </div>
+
+        <div class="mb-3">
+          {{ form.role.label(class="form-label fw-semibold") }}
+          {{ form.role(class="form-select") }}
+        </div>
+
+        <div class="text-center mt-4">
+          {{ form.submit(class="btn btn-success px-4 me-2") }}
+          <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-secondary px-4">Back</a>
+        </div>
+      </form>
+
+      <div class="text-center mt-4">
+        <div class="position-relative my-3">
+          <hr>
+          <span class="bg-white px-3 position-absolute top-50 start-50 translate-middle text-muted small">OR</span>
+        </div>
+        <a href="#" class="btn btn-light border d-flex align-items-center justify-content-center gap-2 w-100 shadow-sm">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+               alt="Google Icon" width="20" height="20">
+          <span class="fw-semibold text-muted">Register with Google</span>
+        </a>
       </div>
-
-      <div class="mb-3">
-        {{ form.password.label(class="form-label") }}
-        {{ form.password(class="form-control") }}
-      </div>
-
-      <div class="mb-3">
-        {{ form.confirm_password.label(class="form-label") }}
-        {{ form.confirm_password(class="form-control") }}
-      </div>
-
-      <div class="mb-3">
-        {{ form.role.label(class="form-label") }}
-        {{ form.role(class="form-select") }}
-      </div>
-
-      <div class="text-center">
-        {{ form.submit(class="btn btn-success px-4") }}
-        <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary px-4 ms-2">Back</a>
-      </div>
-    </form>
+    </div>
   </div>
 </div>
 {% endblock %}
