@@ -18,7 +18,7 @@ model = joblib.load(MODEL_PATH)
 
 # model = model_info["model"]
 # model_accuracy_score = model_info.get("accuracy", None)
-model_accuracy_score = 49
+model_accuracy_score = 74
 
 @main.route('/')
 def home():

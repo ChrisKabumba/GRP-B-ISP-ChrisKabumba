@@ -1,67 +1,70 @@
 {% extends "base.html" %}
 {% block content %}
-
-{% if prediction is defined %}
-    <div class="alert alert-info text-center mt-4">
-      <h5>Prediction Result:</h5>
-      <p class="fw-bold">{{ prediction }}</p>
+  <div class="card shadow-lg mx-auto" style="max-width: 700px;">
+    <div class="card-header bg-primary text-white text-center">
+      <h4>Asthma Risk Prediction</h4>
     </div>
-{% endif %}
 
-<div class="card shadow-lg mx-auto" style="max-width: 700px;">
-  <div class="card-header bg-primary text-white text-center">
-    <h4>Asthma Risk Prediction</h4>
+    <div class="card-body">
+      <p class="text-muted mb-4 text-center">
+        Enter the patient's health details below to predict the likelihood of asthma.
+      </p>
+
+      <form method="POST" class="card p-4 shadow-sm rounded-3">
+        <div class="row">
+          <!-- Binary symptom inputs -->
+          {% for symptom in ['Tiredness', 'Dry-Cough', 'Difficulty-in-Breathing', 'Sore-Throat', 
+                            'None_Symptom', 'Pains', 'Nasal-Congestion', 'Runny-Nose', 'None_Experiencing'] %}
+          <div class="col-md-4 mb-3">
+            <label for="{{ symptom }}" class="form-label">{{ symptom.replace('-', ' ') }}</label>
+            <select class="form-select" name="{{ symptom }}" required>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="row">
+          <!-- Age -->
+          <div class="col-md-6 mb-3">
+            <label for="Age" class="form-label">Age Group</label>
+            <select class="form-select" name="Age" required>
+              <option value="0-9">0-9</option>
+              <option value="10-19">10-19</option>
+              <option value="20-24">20-24</option>
+              <option value="25-59">25-59</option>
+              <option value="60+">60+</option>
+            </select>
+          </div>
+
+          <!-- Gender -->
+          <div class="col-md-6 mb-3">
+            <label for="Gender" class="form-label">Gender</label>
+            <select class="form-select" name="Gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Predict Severity</button>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <div class="card-body">
-    <p class="text-muted mb-4 text-center">
-      Enter the patient's health details below to predict the likelihood of asthma.
-    </p>
-
-    <form method="POST" class="card p-4 shadow-sm rounded-3">
-      <div class="row">
-        <!-- Binary symptom inputs -->
-        {% for symptom in ['Tiredness', 'Dry-Cough', 'Difficulty-in-Breathing', 'Sore-Throat', 
-                          'None_Symptom', 'Pains', 'Nasal-Congestion', 'Runny-Nose', 'None_Experiencing'] %}
-        <div class="col-md-4 mb-3">
-          <label for="{{ symptom }}" class="form-label">{{ symptom.replace('-', ' ') }}</label>
-          <select class="form-select" name="{{ symptom }}" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-          </select>
-        </div>
-        {% endfor %}
+  {% if prediction is defined %}
+    <div class="card shadow-lg mt-5 mx-auto" style="max-width: 500px; border-radius: 12px;">
+      <div class="card-header bg-primary text-white text-center py-3" style="border-radius: 12px 12px 0 0;">
+        <h5 class="mb-0">Prediction Result</h5>
       </div>
 
-      <div class="row">
-        <!-- Age -->
-        <div class="col-md-6 mb-3">
-          <label for="Age" class="form-label">Age Group</label>
-          <select class="form-select" name="Age" required>
-            <option value="0-9">0-9</option>
-            <option value="10-19">10-19</option>
-            <option value="20-24">20-24</option>
-            <option value="25-59">25-59</option>
-            <option value="60+">60+</option>
-          </select>
-        </div>
-
-        <!-- Gender -->
-        <div class="col-md-6 mb-3">
-          <label for="Gender" class="form-label">Gender</label>
-          <select class="form-select" name="Gender" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+      <div class="card-body text-center p-4">
+        <p class="fw-bold display-6 text-dark">{{ prediction }}</p>
       </div>
-
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Predict Severity</button>
-      </div>
-    </form>
-  </div>
-</div>
-
+    </div>
+  {% endif %}
 {% endblock %}
