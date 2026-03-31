@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Delete Prediction{% endblock %}
+{% block content %}
+<div class="container mt-5 col-md-6">
+  <div class="card shadow p-4 text-center">
+    <h4>Are you sure you want to delete this prediction?</h4>
+    <p>Result: <strong>{{ prediction.result }}</strong></p>
+    <form method="POST">
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <a href="{{ url_for('crud.list_predictions') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

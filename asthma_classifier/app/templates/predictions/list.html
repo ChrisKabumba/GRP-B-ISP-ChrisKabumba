@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Prediction History{% endblock %}
+
+{% block content %}
+<div class="container mt-5 fade-in">
+  <h3 class="text-center mb-4 text-primary">Prediction History</h3>
+  {% if predictions %}
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          {% if is_admin %}
+          <th>User</th>
+          {% endif %}
+          <th>Result</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in predictions %}
+        <tr>
+          {% if is_admin %}
+          <td>{{ p[1] }}</td>
+          <td>{{ p[0].result }}</td>
+          <td>{{ p[0].timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>
+            <a href="{{ url_for('crud.view_prediction', prediction_id=p[0].id) }}" class="btn btn-sm btn-info">View</a>
+            <form action="{{ url_for('crud.delete_prediction', prediction_id=p[0].id) }}" method="POST" class="d-inline">
+              <button type="submit" class="btn btn-sm btn-danger"
+                      onclick="return confirm('Delete this prediction?')">Delete</button>
+            </form>
+          </td>
+          {% else %}
+          <td>{{ p.result }}</td>
+          <td>{{ p.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>
+            <a href="{{ url_for('crud.view_prediction', prediction_id=p.id) }}" class="btn btn-sm btn-info">View</a>
+            <form action="{{ url_for('crud.delete_prediction', prediction_id=p.id) }}" method="POST" class="d-inline">
+              <button type="submit" class="btn btn-sm btn-danger"
+                      onclick="return confirm('Delete this prediction?')">Delete</button>
+            </form>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-center text-muted mb-0">No predictions found yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

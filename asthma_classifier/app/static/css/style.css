@@ -1,0 +1,321 @@
+/* =====================================================
+   GLOBAL STYLES
+   ===================================================== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: #2d3436;
+}
+
+/* =====================================================
+   NAVBAR
+   ===================================================== */
+.navbar {
+  background-color: #007bff;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #fff !important;
+}
+
+.nav-link:hover {
+  color: #00b894 !important;
+}
+
+/* =====================================================
+   CONTAINERS & CARDS
+   ===================================================== */
+.container {
+  max-width: 1200px;
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.card h3 {
+  color: #0984e3;
+}
+
+/* =====================================================
+   FORMS
+   ===================================================== */
+form {
+  margin-top: 15px;
+}
+
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  padding: 0.6rem 1rem;
+}
+
+form .btn {
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+
+/* Button Variants */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-success {
+  background-color: #00b894;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #019875;
+}
+
+.btn-danger {
+  background-color: #d63031;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.btn-secondary {
+  background-color: #636e72;
+  border: none;
+}
+
+/* =====================================================
+   TABLES
+   ===================================================== */
+table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #dfe6e9;
+  transition: 0.2s ease;
+}
+
+/* =====================================================
+   ALERTS
+   ===================================================== */
+.alert {
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+/* =====================================================
+   AUTH PAGE
+   ===================================================== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: #f5f8ff;
+}
+
+.auth-card {
+  background: white;
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.auth-card h2 {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.google-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.google-login-btn .google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* =====================================================
+   DASHBOARD PAGE
+   ===================================================== */
+.dashboard-container {
+  padding: 3rem 1rem;
+  background: #f5f8ff;
+  min-height: 85vh;
+}
+
+.dashboard-header h1 {
+  font-weight: 700;
+  color: #007bff;
+}
+
+.dashboard-header p {
+  color: #555;
+  font-size: 1.1rem;
+}
+
+/* Info Cards */
+.stats-card,
+.info-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stats-card:hover,
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card .card-title,
+.info-card h5 {
+  font-size: 1rem;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.stats-card h2 {
+  font-size: 2.2rem;
+}
+
+.dashboard-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+/* Predict Banner */
+.predict-section {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.predict-banner {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 650px;
+}
+
+.predict-banner h2 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.predict-banner p {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.btn-predict {
+  background-color: white;
+  color: #007bff;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.8rem 2.2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-predict:hover {
+  background-color: #f0f0f0;
+  color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* =====================================================
+   RESULT BOX
+   ===================================================== */
+.result-box {
+  background-color: #dff9fb;
+  border: 2px solid #00b894;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  color: #2d3436;
+  font-weight: 600;
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+footer {
+  text-align: center;
+  color: #636e72;
+  padding: 15px 0;
+  margin-top: 40px;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 768px) {
+  .info-card {
+    width: 90%;
+  }
+}
+
+.about-section {
+    background: #f8f9fa;
+}
+
+.commercial-info {
+    background: linear-gradient(135deg, #f9fbff 0%, #e9f2ff 100%);
+}
+
+.commercial-info .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.commercial-info .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
